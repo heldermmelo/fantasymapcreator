@@ -1,0 +1,43 @@
+
+var canvas = document.createElement('canvas');;
+var Image = canvas.Image;
+
+var ctx = canvas.getContext('2d');
+ 
+ctx.font = '30px Impact';
+ctx.rotate(.1);
+ctx.fillText("Awesome!", 50, 100);
+ 
+var te = ctx.measureText('Awesome!');
+ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+ctx.beginPath();
+ctx.lineTo(50, 102);
+ctx.lineTo(50 + te.width, 102);
+ctx.stroke();
+//var canvas = document.createElement('canvas');
+
+var ctx = canvas.getContext("2d");
+  ctx.canvas.width  = window.innerWidth;
+  ctx.canvas.height = window.innerHeight;
+  //...agora codigo uqe desenha...
+var bib = require('./hexagonos-bib.js');
+var protoHex= new Hex(-1,0,1)
+//var pontoInicio=canvas.cantoSuperiorEsquerdo
+  var hexP=new fabric.Polygon(protoHex)
+  canvas.add(protoHex);
+  canvas.renderAll();
+
+function draw(canvas) {
+  var ctx = canvas.getContext("2d");
+  ctx.canvas.width  = window.innerWidth;
+  ctx.canvas.height = window.innerHeight;
+  //...agora codigo uqe desenha...
+  var protoHex= new Hex(-1,0,1)
+//var pontoInicio=canvas.cantoSuperiorEsquerdo
+  var hexP=new fabric.Polygon(protoHex)
+  canvas.add(protoHex);
+  canvas.renderAll();
+
+}
+
+draw(canvas)

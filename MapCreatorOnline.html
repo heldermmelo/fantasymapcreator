@@ -1,0 +1,141 @@
+<html  xml:lang="pt" lang="pt">
+ 
+<head>
+	<title>Map Creator Online</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+	
+		body {
+			padding:0px;
+			margin:0px;
+		}
+ 
+		#menu ul {
+			padding:0px;
+			margin:0px;
+			float: left;
+			width: 100%;
+			background-color:#EDEDED;
+			list-style:none;
+			font:90% Tahoma;
+		}
+ 
+		#menu ul li { display: inline; }
+ 
+		#menu ul li a {
+			background-color:#EDEDED;
+			color: #333;
+			text-decoration: none;
+			border-bottom:3px solid #EDEDED;
+			padding: 2px 10px;
+			float:left;
+		}
+ 
+		#menu ul li a:hover {
+			background-color:#D6D6D6;
+			color: #6D6D6D;
+			border-bottom:3px solid #EA0000;
+		}
+	
+	</style>
+		
+	
+	
+	
+	
+</head>
+ 
+<body>
+	
+	
+	<div id="menu">
+		<ul>
+			<li><a href="">Home</a></li>
+			<li><a href="">Proposta</a></li>
+			<li><a href="">Quem Somos</a></li>
+			<li><a href="">Galeria</a></li>
+			<li><a href="">Contato</a></li>
+		</ul>
+	</div>
+
+
+	<!-- LOGO DO SITE -->
+		<title>Map Creator Online</title>
+		<a>
+			<img width="500" src='logo'>
+		</a>
+
+	</head>
+
+	<body bgcolor="#F5F6CE"><!-- COR DE FUNDO DO SITE -->
+
+		<form action="/teste.html" method="post" enctype="multipart/form-data">
+
+
+		<!-- DROPDOWN LIST DAS CIVILIZACOES -->		
+		<div style='margin-top:4px; margin-bottom:5px; margin-left:20px; margin-right:7px;'>
+			<font face="Tahoma">
+			<h5>Escolha a Civilização:</h5></font>
+			<select required="required" name="civilizacao">
+				<option selected="selected" value="">Selecione</option>
+				<option value="1">Civilização 1</option>
+				<option value="2">Civilização 2</option>
+				<option value="3">Civilização 3</option>
+			</select>
+		</div>
+
+		<!-- DROPDOWN LIST DAS RACAS -->
+		<div style='margin-top:4px; margin-bottom:5px; margin-left:20px; margin-right:7px;'>
+			<font face="Tahoma">
+			<h5>Defina a Raça:</h5></font>
+			<select required="required" name="raca">
+				<option selected="selected" value="">Selecione</option>
+				<option value="1">Raça 1</option>
+				<option value="2">Raça 2</option>
+				<option value="3">Raça 3</option>
+			</select>
+		</div>
+
+
+		<!--CHECKBOX PDF-->
+		<p></p>
+
+		<div style='margin-top:4px; margin-bottom:5px; margin-left:20px; margin-right:7px;'	><font size="2" face="Tahoma">
+			<input required="required" name="PDF" value="p" type="Checkbox"> Gerar mapa em PDF
+		</div></font>
+
+
+		<!-- BOTAO CRIAR MAPA -->
+		<div style='margin-top:4px; margin-bottom:5px; margin-left:20px; margin-right:7px;'>
+			<p><input id="btao" type="submit" value="Criar Mapa!" style="width: 100px; height: 30px"></p>
+		</div>
+
+		</form>
+
+    <div id="canvasD">
+        <canvas id="canvas" width="1100" height="150" >
+        
+	<script>
+	  
+	<script>
+	"use strict"
+	document.getElementById("btao").addEventListener("click", encaminha);
+
+ 
+
+		//document.createElement("canvas");
+		
+			
+	
+		
+//var pontoInicio=canvas.cantoSuperiorEsquerdo
+function encaminha(){  
+	window.location.href='/teste.html';
+}
+		 
+
+	</script>
+	</canvas>
+    </div>
+</body>
+</html>
