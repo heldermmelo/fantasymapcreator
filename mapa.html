@@ -244,7 +244,7 @@ var canvas = document.getElementById('canvas');
 var c2 = canvas.getContext("2d");
 var tamanho = new Point(10, 10);
 var origem = new Point(20,20);
-var layout=new Layout(layout_flat,tamanho, origem);
+var layout=new Layout(layout_pointy,tamanho, origem);
 var protohex = new Hex(5,0,-5);
 var cantosHex=[];
 function desenhaHex(Layout, Hex){
@@ -269,19 +269,20 @@ function desenhaGrade()
 {	
 	var largura = 10;
 	var altura =10;
-	
+	var i=0;
 	
 	var matriz_hex=[];
-	var hexorig = protohex;
-	for (var i=0; i<=largura; i++){
+	
+	for (var k=0; k<=largura; k++){
 			
-			matriz_hex.push(hex_neighbor(hexorig, i));
-			this.protohex=hex_neighbor(hexorig, i);	
-			desenhaHex(layout,matriz_hex[i]);
+			matriz_hex.push(hex_neighbor(protohex, 0));
+			desenhaHex(layout,protohex);
+			this.protohex=hex_neighbor(protohex, 0);	
+			i++;
 	} return protohex;
 }
 
-desenhaHex();
+//desenhaHex();
 
 desenhaGrade();
 
