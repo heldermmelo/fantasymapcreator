@@ -265,27 +265,42 @@ c2.stroke();
 c2.closePath();
 
 }
-function desenhaGrade()
+
+var largura = 50;
+var altura =50;
+var i=0;
+var hexorig =new Hex(5,0,-5);
+var matriz_hex=[];
+
+function desenhaHor()
 {	
-	var largura = 10;
-	var altura =10;
-	var i=0;
 	
-	var matriz_hex=[];
 	
 	for (var k=0; k<=largura; k++){
 			
-			matriz_hex.push(hex_neighbor(protohex, 0));
 			desenhaHex(layout,protohex);
-			this.protohex=hex_neighbor(protohex, 0);	
-			i++;
-	} return protohex;
+			this.protohex=hex_neighbor(protohex, 0);
+			matriz_hex.push(protohex);	
+			
+	}
 }
-
+function desenhaVer()
+{
+	for (var i=0; i<=altura; i++){
+			matriz_hex.push(hexorig);
+			this.protohex = hex_neighbor(hexorig, 4);
+			desenhaHor(layout, hexorig);
+			this.protohex = hex_diagonal_neighbor(hexorig, 4);
+			desenhaHor(layout, hexorig);
+			this.hexorig=hex_neighbor(hexorig,4);
+			
+			
+	}
+}
 //desenhaHex();
 
-desenhaGrade();
-
+desenhaHor(layout, protohex);
+desenhaVer(layout, hexorig);
 	</script>
 	</canvas>
 </body>
