@@ -1,4 +1,4 @@
-<html  xml:lang="pt" lang="pt">
+ <html  xml:lang="pt" lang="pt">
  
 <head>
 	<title>Map Creator Online</title>
@@ -41,7 +41,7 @@
 	</head>
  
 <body>
-	<canvas id="canvas" width="1100" height="750">
+	<canvas id="canvas" width="2000" height="1200">
 	<script>
 	//"use strict"
 
@@ -239,30 +239,65 @@ function polygon_corners(layout, h)
     return corners;
 }
 
-
+var matriz_plan=[ "#79F375" , "#60D160" , "#54B754" ,  "#53AD60" , "#46A349" ];
+var matriz_selva=[ "#234940" ,  "#213D37" ,  "#346B51" ,  "#294F33" ,  "#2F5336" ];
+var matriz_frig=[ "#909EA8" ,  "#C1D5E4" ,  "#CBD9E3" ,  "#ACD0EB" ,  "#BED6E7" ];
+var matriz_arido=[ "#C3C920" ,  "#B7B10E" ,  "#AA9C1B" ,  "#A8A62F" , "#8F951F"];
+function distrocor()
+{
+	var tipoTerreno
+	switch(Math.floor(Math.random()*4)+1){
+		case 1:
+		tipoTerreno = "Planície";
+		this.c2.fillStyle = matriz_plan[Math.floor(Math.random()*matriz_plan.length)];
+		break;
+		
+		case 2:
+		tipoTerreno = "Selva";
+		this.c2.fillStyle = matriz_selva[Math.floor(Math.random()*matriz_selva.length)];
+		break;
+		
+		case 3:
+		tipoTerreno = "Frígido";
+		this.c2.fillStyle = matriz_frig[Math.floor(Math.random()*matriz_frig.length)];
+		break;
+		
+		case 4:
+		tipoTerreno = "Árido/Desértico";
+		this.c2.fillStyle = matriz_arido[Math.floor(Math.random()*matriz_arido.length)];
+		break;
+		
+	} 
+		return c2.fillStyle;
+	
+}
 var canvas = document.getElementById('canvas');
 var c2 = canvas.getContext("2d");
 var tamanho = new Point(10, 10);
-var origem = new Point(20,20);
+var origem = new Point(400,150);
 var layout=new Layout(layout_pointy,tamanho, origem);
 var protohex = new Hex(5,0,-5);
 var cantosHex=[];
 function desenhaHex(Layout, Hex){
 
-var pontosHex=[];
-cantosHex=polygon_corners(layout, protohex);
-c2.fillStyle = "#f00";
-c2.beginPath();
-c2.moveTo(cantosHex[0].x, cantosHex[0].y);
-c2.lineTo(cantosHex[1].x, cantosHex[1].y);
-c2.lineTo(cantosHex[2].x, cantosHex[2].y);
-c2.lineTo(cantosHex[3].x, cantosHex[3].y);
-c2.lineTo(cantosHex[4].x, cantosHex[4].y);
-c2.lineTo(cantosHex[5].x, cantosHex[5].y);
-c2.lineTo(cantosHex[0].x, cantosHex[0].y);
-c2.strokeStyle="black";
-c2.stroke();
-c2.closePath();
+	var pontosHex=[];
+	cantosHex=polygon_corners(layout, protohex);
+	
+	c2.beginPath();
+	c2.moveTo(cantosHex[0].x, cantosHex[0].y);
+	c2.lineTo(cantosHex[1].x, cantosHex[1].y);
+	c2.lineTo(cantosHex[2].x, cantosHex[2].y);
+	c2.lineTo(cantosHex[3].x, cantosHex[3].y);
+	c2.lineTo(cantosHex[4].x, cantosHex[4].y);
+	c2.lineTo(cantosHex[5].x, cantosHex[5].y);
+	c2.lineTo(cantosHex[0].x, cantosHex[0].y);
+	c2.closePath();
+	c2.stroke();
+	var cor = '#' + distrocor().toString(7);
+	c2.fillStyle =cor;
+	c2.fill();
+	
+	
 
 }
 
@@ -271,10 +306,6 @@ var altura =50;
 var i=0;
 var hexorig =new Hex(5,0,-5);
 var matriz_hex=[];
-var matriz_plan=["79F375", "60D160", "54B754", "53AD60","46A349"];
-var matriz_selva=["234940", "213D37", "346B51", "294F33", "2F5336"];
-var matriz_frig=["909EA8", "C1D5E4", "CBD9E3", "ACD0EB", "BED6E7"];
-var matriz_arido=["C3C920", "B7B10E", "AA9C1B", "A8A62F","8F951F"];
 
 function desenhaHor()
 {	
@@ -295,7 +326,7 @@ function desenhaVer()
 			this.protohex = hex_neighbor(hexorig, 4);
 			desenhaHor(layout, hexorig);
 			this.protohex = hex_diagonal_neighbor(hexorig, 4);
-			desenhaHor(layout, hexorig);x  nbssx  basdjmkl
+			desenhaHor(layout, hexorig);
 			this.hexorig=hex_neighbor(hexorig,4);
 		
 			
@@ -305,6 +336,7 @@ function desenhaVer()
 
 desenhaHor(layout, protohex);
 desenhaVer(layout, hexorig);
+console.log(matriz_hex);
 	</script>
 	</canvas>
 </body>
