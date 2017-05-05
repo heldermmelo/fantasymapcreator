@@ -594,25 +594,29 @@ var altura =50;
 var i=0;
 var hexorig =new Hex(5,0,-5);
 var matriz_hex=[];
-
+var matriz_pontos = [ ];	
 function desenhaHor()
 {	
 	
+	noise.seed(Math.random());
 	
 	for (var x=0; x<largura; x++){
 			
    
-			desenhaHex(layout,protohex);
+			//desenhaHex(layout,protohex);
 			this.protohex=hex_neighbor(protohex, 0);
 			matriz_hex.push(protohex);	
-			//var value = Math.abs(noise.perlin2(x / 100, y / 100));
-    			//value *= 256;
-   			// var cell = (x + y * largura) * 4;
-   			 //data[cell] = data[cell + 1] = data[cell + 2] = value;
-   			 //data[cell] += Math.max(0, (25 - value) * 8);
-   			 //data[cell + 3] = 255; // alpha.
+			
+	}
+	for (var x = 0; x < canvas.width; x=x+5) {
+  		for (var y = 0; y < canvas.height; y=y+5) {
+    		// All noise functions return values in the range of -1 to 1.
+		matriz_pontos.push([new Point (random_para_mapa(origem.x, canvas.width), random_para_mapa(origem.y, canvas.height)), noise.perlin2(x / 100, y / 100), noise.perlin2(Math.random(x / 100 ,x), Math.random(y / 100,y))]);
+	}		
+    		//matriz de matrizes: a primeira posição é objeto do tipo Point, a segunda é um valor para altitude, a terceira é para umidade.
 	
-}
+	 } return matriz_pontos;//console.log(matriz_pontos); console.log(matriz_hex);
+	
 }
 function desenhaVer()
 {
@@ -623,64 +627,85 @@ function desenhaVer()
 			this.protohex = hex_diagonal_neighbor(hexorig, 4);
 			desenhaHor(layout, hexorig);
 			this.hexorig=hex_neighbor(hexorig,4);
-		
 			
-}
+			
+}return matriz_hex;
 }
 //desenhaHex();
 var relevo =5;
 function random_para_mapa(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
-function gerapontosperlin(){
-	 var matriz_pontos = [ ];
-	 noise.seed(Math.random());
+ 
 
-	for (var x = 0; x < canvas.width; x=x+10) {
-  		for (var y = 0; y < canvas.height; y=y+10) {
-    // All noise functions return values in the range of -1 to 1.
-
-    // noise.simplex2 and noise.perlin2 for 2d noise
-    matriz_pontos.push([new Point (random_para_mapa(origem.x, canvas.width), random_para_mapa(origem.y, canvas.height)), noise.perlin2(x / 100, y / 100), noise.perlin2(Math.random(x / 100 , x), Math.random(y / 100, y))]);
-    	
+function distrocor(matriz_pontos){
+	var matriz_pontos = this.matriz_pontos; 
+	var tipoTerreno;
+	for(var p=0; p<=matriz_pontos.length; p++){
+			var altitude=matriz_pontos[p][1];
+			var umidade = matriz_pontos[p][2];
 	
-	 } console.log(matriz_pontos); 
-	   
-}
-}
-function distrocor()
-{
-
 	
-	var tipoTerreno
-	switch(Math.floor(Math.random()*4)+1){
-		case 1:
-		tipoTerreno = "Planície";
+	if (altitude < 0.1){ tipoTerreno="Oceano";}
+  	if (altitude < 0.12){ tipoTerreno="Praia";}
+  
+  	if (altitude > 0.8) {
+    		if (umidade < 0.1) { tipoTerreno="Devastada";}
+    		if (umidade < 0.2){ tipoTerreno="Descampado";}
+   		if (umidade < 0.5) { tipoTerreno="Tundra";}
+  }
+
+  if (altitude > 0.6) {
+    if (umidade < 0.33) { tipoTerreno="Desértico temperado";}
+    if (umidade < 0.66){ tipoTerreno="Cerrado";}
+    tipoTerreno="Taiga";
+  }
+
+  if (altitude > 0.3) {
+    if (umidade < 0.16) { tipoTerreno="Desértico temperado";}
+    if (umidade < 0.50) { tipoTerreno="Campina";}
+    if (umidade < 0.83) { tipoTerreno="Floresta temperada";}
+    tipoTerreno="Floresta tropica temperada";
+  }
+
+  if (umidade < 0.16) { tipoTerreno="Deserto subtropical";}
+  if (umidade < 0.33) { tipoTerreno="Campina";}
+  if (umidade < 0.66) { tipoTerreno="Floresta tropical sazonal";}
+ tipoTerreno="Floresta tropical";
+
+			
+	
+	
+	switch(tipoTerreno){
+		case "Campina":
 		this.c2.fillStyle = matriz_plan[Math.floor(Math.random()*matriz_plan.length)];
+		
 		break;
 		
-		case 2:
-		tipoTerreno = "Selva";
+		case "Floresta tropical":
+		tipoTerreno = "Floresta tropical";
 		this.c2.fillStyle = matriz_selva[Math.floor(Math.random()*matriz_selva.length)];
 		break;
 		
-		case 3:
-		tipoTerreno = "Frígido";
+		case "Tundra":
 		this.c2.fillStyle = matriz_frig[Math.floor(Math.random()*matriz_frig.length)];
 		break;
 		
-		case 4:
-		tipoTerreno = "Árido/Desértico";
+		case "Desértico subtropical":
 		this.c2.fillStyle = matriz_arido[Math.floor(Math.random()*matriz_arido.length)];
 		break;
 		
 	} 
-		return c2.fillStyle;
+		//return c2.fillStyle;
 	
+	}
 }
 desenhaHor(layout, protohex);
 desenhaVer(layout, hexorig);
-gerapontosperlin();
+for (var nu=0; nu<=matriz_hex.length; nu++){
+	desenhaHex(layout,matriz_hex[nu]);
+}
+//gerapontosperlin();
 
 
 	</script>
