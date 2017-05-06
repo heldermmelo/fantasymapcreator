@@ -555,6 +555,9 @@ var matriz_plan=[ "#79F375" , "#60D160" , "#54B754" ,  "#53AD60" , "#46A349" ];
 var matriz_selva=[ "#234940" ,  "#213D37" ,  "#346B51" ,  "#294F33" ,  "#2F5336" ];
 var matriz_frig=[ "#909EA8" ,  "#C1D5E4" ,  "#CBD9E3" ,  "#ACD0EB" ,  "#BED6E7" ];
 var matriz_arido=[ "#C3C920" ,  "#B7B10E" ,  "#AA9C1B" ,  "#A8A62F" , "#8F951F"];
+var matriz_praia=[ "#FFF2AA" ,  "#FFF2AA" ,  "#FFF2AA" ,  "#FFF2AA" , "#FFF2AA"];
+var matriz_floresta_temperada=[ "#557714" ,  "#D2ED9E" ,  "#ECBA5D" ,  "#ECBA5D" , "#FFF2AA"];
+var matriz_oceano=[ "#5069A8" ,  "#355094" ,  "#122A66" ,  "#0B2B7A" , "#061948"];
 
 var canvas = document.getElementById('canvas');
 var c2 = canvas.getContext("2d");
@@ -566,145 +569,180 @@ var cantosHex=[];
 var mapa_elem=[];
 var image = c2.createImageData(canvas.width, canvas.height);
 var data = image.data;
-function desenhaHex(Layout, Hex){
-
-	var pontosHex=[];
-	cantosHex=polygon_corners(layout, protohex);
-	
-	c2.beginPath();
-	c2.moveTo(cantosHex[0].x, cantosHex[0].y);
-	c2.lineTo(cantosHex[1].x, cantosHex[1].y);
-	c2.lineTo(cantosHex[2].x, cantosHex[2].y);
-	c2.lineTo(cantosHex[3].x, cantosHex[3].y);
-	c2.lineTo(cantosHex[4].x, cantosHex[4].y);
-	c2.lineTo(cantosHex[5].x, cantosHex[5].y);
-	c2.lineTo(cantosHex[0].x, cantosHex[0].y);
-	c2.closePath();
-	c2.stroke();
-	var cor = '#' + distrocor().toString(7);
-	c2.fillStyle =cor;
-	c2.fill();
-	
-	
-
-}
+var matriz_hex=[];
 
 var largura = 50;
 var altura =50;
 var i=0;
 var hexorig =new Hex(5,0,-5);
-var matriz_hex=[];
+
 var matriz_pontos = [ ];	
-function desenhaHor()
-{	
+function povoa_matriz(){	
 	
 	noise.seed(Math.random());
-	
+	function povoaHor(){
 	for (var x=0; x<largura; x++){
-			
-   
-			//desenhaHex(layout,protohex);
-			this.protohex=hex_neighbor(protohex, 0);
-			matriz_hex.push(protohex);	
-			
-	}
-	for (var x = 0; x < canvas.width; x=x+5) {
-  		for (var y = 0; y < canvas.height; y=y+5) {
-    		// All noise functions return values in the range of -1 to 1.
-		matriz_pontos.push([new Point (random_para_mapa(origem.x, canvas.width), random_para_mapa(origem.y, canvas.height)), noise.perlin2(x / 100, y / 100), noise.perlin2(Math.random(x / 100 ,x), Math.random(y / 100,y))]);
+		matriz_hex.push([protohex,noise.perlin2(x / 100, canvas.height / 100), noise.perlin2(Math.random(x / 100 ,x), Math.random(30,canvas.width))]);
+		this.protohex=hex_neighbor(protohex, 0);
 	}		
+	}
+	for (var y = 0; y < altura; y++) {	
+   			this.protohex=hexorig;
+			this.protohex = hex_neighbor(hexorig, 4);
+			povoaHor();
+			matriz_hex.push([protohex,noise.perlin2(canvas.height / 100, y / 100), noise.perlin2(Math.random(canvas.height / 100 ,canvas.height), Math.random(y / 100,y))]);
+			this.protohex = hex_diagonal_neighbor(hexorig, 4);
+			povoaHor();
+			matriz_hex.push([protohex,noise.perlin2(canvas.width / 100, y / 100), noise.perlin2(Math.random(canvas.width/ 100 ,canvas.width), Math.random(y / 100,y))]);
+			this.hexorig = hex_neighbor(hexorig, 4)
+	}			
+		
+	
+	//for (var x = 0; x < canvas.width; x=x+5) {
+  	//	for (var y = 0; y < canvas.height; y=y+5) {
+    		// All noise functions return values in the range of -1 to 1.
+		
+		//matriz_pontos.push([new Point (random_para_mapa(origem.x, canvas.width), random_para_mapa(origem.y, canvas.height)), noise.perlin2(x / 100, y / 100), noise.perlin2(Math.random(x / 100 ,x), Math.random(y / 100,y))]);
+	//}		
     		//matriz de matrizes: a primeira posição é objeto do tipo Point, a segunda é um valor para altitude, a terceira é para umidade.
 	
-	 } return matriz_pontos;//console.log(matriz_pontos); console.log(matriz_hex);
-	
-}
-function desenhaVer()
-{
-	for (var i=0; i<altura; i++){
-			matriz_hex.push(hexorig);
-			this.protohex = hex_neighbor(hexorig, 4);
-			desenhaHor(layout, hexorig);
-			this.protohex = hex_diagonal_neighbor(hexorig, 4);
-			desenhaHor(layout, hexorig);
-			this.hexorig=hex_neighbor(hexorig,4);
-			
-			
-}return matriz_hex;
-}
-//desenhaHex();
+} //console.log(matriz_pontos); 
+povoa_matriz();	
+console.log(matriz_hex);
+
+
 var relevo =5;
 function random_para_mapa(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+ var tipoTerreno;
+
+function distrocor(matriz_hex){
+	
+	
+	
+	if (altitude < 10){ tipoTerreno="Oceano";}
+		if (umidade>=15 && altitude>=40){tipoTerreno = "Floresta temperada"}
+		if (umidade<10 && altitude>90){tipoTerreno="Tundra";}
+		if(umidade<15 && altitude>=25 ){tipoTerreno="Campina";}
+		
+		
+		
+	
+  	
+  
+
+
  
 
-function distrocor(matriz_pontos){
-	var matriz_pontos = this.matriz_pontos; 
-	var tipoTerreno;
-	for(var p=0; p<=matriz_pontos.length; p++){
-			var altitude=matriz_pontos[p][1];
-			var umidade = matriz_pontos[p][2];
-	
-	
-	if (altitude < 0.1){ tipoTerreno="Oceano";}
-  	if (altitude < 0.12){ tipoTerreno="Praia";}
-  
-  	if (altitude > 0.8) {
-    		if (umidade < 0.1) { tipoTerreno="Devastada";}
-    		if (umidade < 0.2){ tipoTerreno="Descampado";}
-   		if (umidade < 0.5) { tipoTerreno="Tundra";}
-  }
 
-  if (altitude > 0.6) {
-    if (umidade < 0.33) { tipoTerreno="Desértico temperado";}
-    if (umidade < 0.66){ tipoTerreno="Cerrado";}
-    tipoTerreno="Taiga";
-  }
-
-  if (altitude > 0.3) {
-    if (umidade < 0.16) { tipoTerreno="Desértico temperado";}
-    if (umidade < 0.50) { tipoTerreno="Campina";}
-    if (umidade < 0.83) { tipoTerreno="Floresta temperada";}
-    tipoTerreno="Floresta tropica temperada";
-  }
-
-  if (umidade < 0.16) { tipoTerreno="Deserto subtropical";}
-  if (umidade < 0.33) { tipoTerreno="Campina";}
-  if (umidade < 0.66) { tipoTerreno="Floresta tropical sazonal";}
- tipoTerreno="Floresta tropical";
 
 			
 	
 	
 	switch(tipoTerreno){
-		case "Campina":
-		this.c2.fillStyle = matriz_plan[Math.floor(Math.random()*matriz_plan.length)];
 		
+		case "Floresta temperada":
+		return matriz_floresta_temperada[Math.floor(Math.random()*matriz_floresta_temperada.length)];
+		break;
+	
+		case "Desértico temperado":
+
+		return matriz_selva[Math.floor(Math.random()*matriz_selva.length)];
+		break;
+		
+		case "Campina":
+		return matriz_plan[Math.floor(Math.random()*matriz_plan.length)];
+		break;
+		
+		case "Deserto subtropical":
+		return matriz_praia[Math.floor(Math.random()*matriz_plan.length)];
 		break;
 		
 		case "Floresta tropical":
-		tipoTerreno = "Floresta tropical";
-		this.c2.fillStyle = matriz_selva[Math.floor(Math.random()*matriz_selva.length)];
+		this.tipoTerreno = "Floresta tropical";
+		return matriz_selva[Math.floor(Math.random()*matriz_selva.length)];
+		break;
+		
+		case "Floresta tropical sazonal":
+		this.tipoTerreno = "Floresta tropical";
+		return matriz_selva[Math.floor(Math.random()*matriz_selva.length)];
+		break;
+		
+		case "Floresta tropical temperada":
+		this.tipoTerreno = "Floresta tropical";
+		return matriz_floresta_temperada[Math.floor(Math.random()*matriz_selva.length)];
+		break;
+		
+		case "Floresta tropical sazonal":
+		this.tipoTerreno = "Floresta tropical";
+		return matriz_selva[Math.floor(Math.random()*matriz_selva.length)];
 		break;
 		
 		case "Tundra":
-		this.c2.fillStyle = matriz_frig[Math.floor(Math.random()*matriz_frig.length)];
+		return matriz_frig[Math.floor(Math.random()*matriz_frig.length)];
 		break;
 		
 		case "Desértico subtropical":
-		this.c2.fillStyle = matriz_arido[Math.floor(Math.random()*matriz_arido.length)];
+		return matriz_praia[Math.floor(Math.random()*matriz_arido.length)];
 		break;
 		
+		case "Praia":
+		return matriz_praia[Math.floor(Math.random()*matriz_arido.length)];
+		break;
+		
+		case "Oceano":
+		return matriz_oceano[Math.floor(Math.random()*matriz_arido.length)];
+		break;
 	} 
 		//return c2.fillStyle;
 	
+}
+
+function randomEmergencia(){
+	var icone = new Image();
+	var matriz_imagens=["imagens/dragon-head.png","imagens/hydra.png","imagens/eye-shield.png","imagens/battle-gear.png","imagens/bad-gnome.png"]
+	icone.src = matriz_imagens[Math.floor(Math.random()*matriz_imagens.length)];
+	c2.drawImage(icone,Math.random(origem.x, canvas.width),Math.random(origem.y,canvas.height));
+}
+
+//desenhaHor(layout, protohex);
+//desenhaVer(layout, hexorig);
+povoa_matriz();
+var altitude;
+var umidade;
+function desenhaHex(Layout, Hex){
+	
+	var matriz_hex = this.matriz_hex; 
+	var pontosHex=[];
+	
+	
+	for(var mh=0; mh<=matriz_hex.length; mh++){
+		this.umidade=Math.abs(matriz_hex[mh][1])*100;
+		this.altitude=Math.abs(matriz_hex[mh][2])*100;
+		cantosHex.push(polygon_corners(layout, matriz_hex[mh][0]));
+		console.log(altitude, umidade);
+	c2.beginPath();
+	c2.moveTo(cantosHex[mh][0].x, cantosHex[mh][0].y);
+	c2.lineTo(cantosHex[mh][1].x, cantosHex[mh][1].y);
+	c2.lineTo(cantosHex[mh][2].x, cantosHex[mh][2].y);
+	c2.lineTo(cantosHex[mh][3].x, cantosHex[mh][3].y);
+	c2.lineTo(cantosHex[mh][4].x, cantosHex[mh][4].y);
+	c2.lineTo(cantosHex[mh][5].x, cantosHex[mh][5].y);
+	c2.lineTo(cantosHex[mh][0].x, cantosHex[mh][0].y);
+	c2.closePath();
+	c2.stroke();
+	var cor = distrocor();
+	c2.fillStyle =cor;
+	c2.fill();
 	}
 }
-desenhaHor(layout, protohex);
-desenhaVer(layout, hexorig);
-for (var nu=0; nu<=matriz_hex.length; nu++){
-	desenhaHex(layout,matriz_hex[nu]);
-}
+
+desenhaHex();
+randomEmergencia();
+//for (var nu=0; nu<=matriz_hex.length; nu++){
+//	desenhaHex(layout,matriz_hex[nu]);
+//}
 //gerapontosperlin();
 
 
