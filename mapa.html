@@ -703,7 +703,10 @@ function randomEmergencia(){
 	var icone = new Image();
 	var matriz_imagens=["imagens/dragon-head.png","imagens/hydra.png","imagens/eye-shield.png","imagens/battle-gear.png","imagens/bad-gnome.png"]
 	icone.src = matriz_imagens[Math.floor(Math.random()*matriz_imagens.length)];
-	c2.drawImage(icone,Math.random(origem.x, canvas.width),Math.random(origem.y,canvas.height));
+	c2.drawImage(icone,Math.random(origem.x, canvas.width),Math.random(origem.y,canvas.height),5,5);
+	icone.onload = function() {
+   		c2.drawImage(icone,Math.random(origem.x, canvas.width),Math.random(origem.y,canvas.height),5,5);
+};	
 }
 
 //desenhaHor(layout, protohex);
