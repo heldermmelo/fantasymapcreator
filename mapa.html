@@ -41,7 +41,7 @@
 	</head>
  
 <body>
-	<canvas id="canvas" width="2000" height="800">
+	<canvas id="canvas" width="3000" height="800">
 	<script>
 	//"use strict"
 /*
@@ -561,20 +561,20 @@ var matriz_oceano=[ "#5069A8" ,  "#355094" ,  "#122A66" ,  "#0B2B7A" , "#061948"
 
 var canvas = document.getElementById('canvas');
 var c2 = canvas.getContext("2d");
-var tamanho = new Point(10, 10);
-var origem = new Point(700,0);
+var tamanho = new Point(12, 12);
+var origem = new Point(-15,-200);
 var layout=new Layout(layout_flat, tamanho, origem);
-var protohex = new Hex(5,0,-5);
+var protohex = new Hex(20,0,-20);
 var cantosHex=[];
 var mapa_elem=[];
 var image = c2.createImageData(canvas.width, canvas.height);
 var data = image.data;
 var matriz_hex=[];
 
-var largura = 50;
-var altura =50;
+var largura = 10;
+var altura =6;
 var i=0;
-var hexorig =new Hex(5,0,-5);
+var hexorig =new Hex(20,0,-20);
 
 var matriz_pontos = [ ];	
 function povoa_matriz(){	
@@ -702,10 +702,10 @@ function distrocor(matriz_hex){
 function randomEmergencia(canvas, c2, onload){
 	var icone = new Image();
 	var matriz_imagens=["imagens/dragon-head.png","imagens/hydra.png","imagens/eye-shield.png","imagens/battle-gear.png","imagens/bad-gnome.png"]
-	icone.src = "imagens/dragon-head.png"
+	icone.src = matriz_imagens[Math.floor(Math.random() * ((matriz_imagens.length - 1) - 0 + 1))];
 	//c2.drawImage(icone,Math.random(origem.x, canvas.width),Math.random(origem.y,canvas.height),5,5);
 	icone.onload = function() {
-   	c2.drawImage(icone,Math.floor(Math.random()*(origem.x, canvas.width))+origem.x,Math.floor(Math.random()*(origem.y,canvas.height))+origem.y,200,200);
+   	c2.drawImage(icone,Math.floor(Math.random()*(origem.x, canvas.width))+origem.x,Math.floor(Math.random()*(origem.y,canvas.height))+origem.y,50,50);
    	//lembre-se que entre dois valores, a form
    	//correta é Math.floor(Math.random() * (max - min)) + min;	
    	onload(canvas, c2);
@@ -729,14 +729,15 @@ function desenhaHex(Layout, Hex){
 		this.altitude=Math.abs(matriz_hex[mh][2])*100;
 		cantosHex.push(polygon_corners(layout, matriz_hex[mh][0]));
 		console.log(altitude, umidade);
+	var escala=3;
 	c2.beginPath();
-	c2.moveTo(cantosHex[mh][0].x, cantosHex[mh][0].y);
-	c2.lineTo(cantosHex[mh][1].x, cantosHex[mh][1].y);
-	c2.lineTo(cantosHex[mh][2].x, cantosHex[mh][2].y);
-	c2.lineTo(cantosHex[mh][3].x, cantosHex[mh][3].y);
-	c2.lineTo(cantosHex[mh][4].x, cantosHex[mh][4].y);
-	c2.lineTo(cantosHex[mh][5].x, cantosHex[mh][5].y);
-	c2.lineTo(cantosHex[mh][0].x, cantosHex[mh][0].y);
+	c2.moveTo(cantosHex[mh][0].x*escala, cantosHex[mh][0].y*escala);
+	c2.lineTo(cantosHex[mh][1].x*escala, cantosHex[mh][1].y*escala);
+	c2.lineTo(cantosHex[mh][2].x*escala, cantosHex[mh][2].y*escala);
+	c2.lineTo(cantosHex[mh][3].x*escala, cantosHex[mh][3].y*escala);
+	c2.lineTo(cantosHex[mh][4].x*escala, cantosHex[mh][4].y*escala);
+	c2.lineTo(cantosHex[mh][5].x*escala, cantosHex[mh][5].y*escala);
+	c2.lineTo(cantosHex[mh][0].x*escala, cantosHex[mh][0].y*escala);
 	c2.closePath();
 	c2.stroke();
 	var cor = distrocor();
