@@ -1,5 +1,6 @@
-<html  xml:lang="pt" lang="pt">
- 
+<html  xml:lang="pt" lang="pt"> 
+<link rel="shortcut icon" href="C:\favicon.ico">
+
 <head>
 	<title>Map Creator Online</title>
 	<meta charset="utf-8">
@@ -38,104 +39,79 @@
 		}
 	
 	</style>
-		
-	
-	
-	
-	
 </head>
  
 <body>
-	
-	
 	<div id="menu">
 		<ul>
-			<li><a href="">Home</a></li>
+			<li><a href="C:/Users/Lindbergh/Desktop/Est%C3%A1gio%20II-%202017.1/MapCreatorOnline.html">Home</a></li>
 			<li><a href="">Proposta</a></li>
 			<li><a href="">Quem Somos</a></li>
 			<li><a href="">Galeria</a></li>
 			<li><a href="">Contato</a></li>
+			<li><a href="C:/Users/Lindbergh/Desktop/Est%C3%A1gio%20II-%202017.1/login.html">Login</a></li>
 		</ul>
 	</div>
 
 
 	<!-- LOGO DO SITE -->
 		<title>Map Creator Online</title>
-		<a>
-			<img width="500" src='logo'>
-		</a>
+		<a href=""><img width="500" src="Capturar.PNG"></a>
 
 	</head>
 
 	<body bgcolor="#F5F6CE"><!-- COR DE FUNDO DO SITE -->
 
-		<form action="/teste.html" method="post" enctype="multipart/form-data">
+		<form action="C:/Users/Lindbergh/Desktop/Est%C3%A1gio%20II-%202017.1/photo_2017-05-18_21-58-44.jpg" method="post" enctype="multipart/form-data">
 
+		<!-- DROPDOWN LIST DOS TERRENOS -->
+		<div style='margin-top:4px; margin-bottom:5px; margin-left:20px; margin-right:7px;'>
+			<font face="Tahoma">
+			<h5>Defina o terreno:</h5></font>
+			<select required="required" name="terreno">
+				<option selected="selected" value="">Selecione</option>
+				<option value="1">Aquático</option>
+				<option value="2">Floresta</option>
+				<option value="3">Deserto</option>
+			</select>
+		</div>
 
 		<!-- DROPDOWN LIST DAS CIVILIZACOES -->		
 		<div style='margin-top:4px; margin-bottom:5px; margin-left:20px; margin-right:7px;'>
 			<font face="Tahoma">
-			<h5>Escolha a Civilização:</h5></font>
-			<select required="required" name="civilizacao">
-				<option selected="selected" value="">Selecione</option>
-				<option value="1">Civilização 1</option>
-				<option value="2">Civilização 2</option>
-				<option value="3">Civilização 3</option>
-			</select>
+			<h5>Escolha quantas civilizações:</h5></font>
+			<input type="range" name="civ" min="0" max="3">
 		</div>
 
 		<!-- DROPDOWN LIST DAS RACAS -->
 		<div style='margin-top:4px; margin-bottom:5px; margin-left:20px; margin-right:7px;'>
 			<font face="Tahoma">
 			<h5>Defina a Raça:</h5></font>
-			<select required="required" name="raca">
-				<option selected="selected" value="">Selecione</option>
-				<option value="1">Raça 1</option>
-				<option value="2">Raça 2</option>
-				<option value="3">Raça 3</option>
-			</select>
+			<input type="radio" name="raça" value="anão"> Anões<br>
+			<input type="radio" name="raça" value="elfo"> Elfo<br>
+			<input type="radio" name="raça" value="humano"> Humano<br>
+			<input type="text" name="raça" value="outro"> Insira o nome da raça de fantasia<br>
 		</div>
 
-
+		
 		<!--CHECKBOX PDF-->
 		<p></p>
 
-		<div style='margin-top:4px; margin-bottom:5px; margin-left:20px; margin-right:7px;'	><font size="2" face="Tahoma">
-			<input required="required" name="PDF" value="p" type="Checkbox"> Gerar mapa em PDF
-		</div></font>
+		<!--div style='margin-top:4px; margin-bottom:5px; margin-left:20px; margin-right:7px;'	><font size="2" face="Tahoma">
+			<input required="required" name="formato" value="op1" type="radio"> Gerar mapa em PDF
+		</div></font--!>
 
+		<!--CHECKBOX JPG-->
+		<div style='margin-top:4px; margin-bottom:5px; margin-left:20px; margin-right:7px;'	><font size="2" face="Tahoma">
+			<input required="required" name="formato" value="op2" type="radio"> Gerar mapa em PNG
+		</div></font>
 
 		<!-- BOTAO CRIAR MAPA -->
 		<div style='margin-top:4px; margin-bottom:5px; margin-left:20px; margin-right:7px;'>
-			<p><input id="btao" type="submit" value="Criar Mapa!" style="width: 100px; height: 30px"></p>
+			<p><input type="submit" onclick="window.location.href='mapa.html'" href="/mapa.html" value="Criar Mapa!" style="width: 100px; height: 30px"></p>
 		</div>
 
 		</form>
 
-    <div id="canvasD">
-        <canvas id="canvas" width="1100" height="150" >
-        
-	<script>
-	  
-	<script>
-	"use strict"
-	document.getElementById("btao").addEventListener("click", encaminha);
-
- 
-
-		//document.createElement("canvas");
-		
-			
-	
-		
-//var pontoInicio=canvas.cantoSuperiorEsquerdo
-function encaminha(){  
-	window.location.href='/teste.html';
-}
-		 
-
-	</script>
-	</canvas>
-    </div>
 </body>
 </html>

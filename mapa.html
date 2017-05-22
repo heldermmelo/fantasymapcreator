@@ -695,17 +695,29 @@ function distrocor(matriz_hex){
 		return matriz_oceano[Math.floor(Math.random()*matriz_arido.length)];
 		break;
 	} 
-		//return c2.fillStyle;
+		
 	
 }
 
-function randomEmergencia(canvas, c2, onload){
+var ocorrencias = 5;
+	
+function distribui_ocorrencias(canvas, c2, onload){
 	var icone = new Image();
 	var matriz_imagens=["imagens/dragon-head.png","imagens/hydra.png","imagens/eye-shield.png","imagens/battle-gear.png","imagens/bad-gnome.png"]
 	icone.src = matriz_imagens[Math.floor(Math.random() * ((matriz_imagens.length - 1) - 0 + 1))];
 	//c2.drawImage(icone,Math.random(origem.x, canvas.width),Math.random(origem.y,canvas.height),5,5);
 	icone.onload = function() {
-   	c2.drawImage(icone,Math.floor(Math.random()*(origem.x, canvas.width))+origem.x,Math.floor(Math.random()*(origem.y,canvas.height))+origem.y,50,50);
+	var hex_para_variar = [];
+	for (var ui=0; ui<=ocorrencias; ui++){
+		
+		hex_para_variar.push(matriz_hex[Math.floor(Math.random() * ((matriz_hex.length - 1) - 0 + 1))]);
+		var vertice = polygon_corners(layout, hex_para_variar[ui][0]);
+		console.log(vertice);
+		c2.drawImage(icone,vertice[ui].x*3,vertice[ui].y*3,50,50);
+   	//lembre-se que entre dois valores, a form
+	}
+	
+   	//c2.drawImage(icone,Math.floor(Math.random()*(origem.x, canvas.width))+origem.x,Math.floor(Math.random()*(origem.y,canvas.height))+origem.y,50,50);
    	//lembre-se que entre dois valores, a form
    	//correta é Math.floor(Math.random() * (max - min)) + min;	
    	onload(canvas, c2);
@@ -747,7 +759,7 @@ function desenhaHex(Layout, Hex){
 }
 
 
-randomEmergencia(canvas, c2, onload);
+distribui_ocorrencias(canvas, c2, onload);
 desenhaHex();
 //for (var nu=0; nu<=matriz_hex.length; nu++){
 //	desenhaHex(layout,matriz_hex[nu]);
